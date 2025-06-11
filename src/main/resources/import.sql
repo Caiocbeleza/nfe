@@ -2,15 +2,8 @@
 INSERT INTO emitente (id, cnpj, razaoSocial, ie, uf)
 VALUES (1, '34177678000166', 'Empresa Teste LTDA', '123456789', 'SP');
 
--- Produto
-INSERT INTO produto (id, codigo, nome, ncm, cfop, valorUnitario)
-VALUES
-  (1, 'P001', 'Caneta Azul', '12345678', '5101', 2.50),
-  (2, 'P002', 'Caderno 100 folhas', '87654321', '5102', 12.90),
-  (3, 'P003', 'Borracha Escolar', '11223344', '5101', 1.20);
-
 -- Nota Fiscal
-INSERT INTO nota_fiscal (id, emitente_id, totalNota, icms, totalComImposto, protocoloAutorizacao, xml, destinatario_nome, destinatario_documento, destinatario_uf)
+INSERT INTO nota_fiscal (id, emitente_id, totalNota, icms, totalComImposto, protocoloAutorizacao, xml, nome, documento, uf)
 VALUES (
     1,
     1,
@@ -23,6 +16,13 @@ VALUES (
     '12345678901',
     'RJ'
 );
+
+-- Produto
+INSERT INTO produto (id, codigo, nome, ncm, cfop, valorUnitario)
+VALUES
+  (1, 'P001', 'Caneta Azul', '12345678', '5101', 2.50),
+  (2, 'P002', 'Caderno 100 folhas', '87654321', '5102', 12.90),
+  (3, 'P003', 'Borracha Escolar', '11223344', '5101', 1.20);
 
 -- ItemNota
 INSERT INTO item_nota (id, produto_id, quantidade, valorTotal, nota_fiscal_id)

@@ -1,7 +1,7 @@
 package br.com.nfe.domain;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Positive;
@@ -9,7 +9,9 @@ import jakarta.validation.constraints.Positive;
 import java.math.BigDecimal;
 
 @Entity
+@Table(name = "produto")
 public class Produto extends PanacheEntity {
+
     @NotBlank
     public String codigo;
 

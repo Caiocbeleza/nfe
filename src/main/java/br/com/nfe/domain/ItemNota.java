@@ -1,14 +1,14 @@
 package br.com.nfe.domain;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 
 @Entity
+@Table(name = "item_nota")
 public class ItemNota extends PanacheEntity {
+
     @ManyToOne
     public Produto produto;
 

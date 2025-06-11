@@ -7,7 +7,9 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
+@Table(name = "nota_fiscal")
 public class NotaFiscal extends PanacheEntity {
+
     @ManyToOne
     public Emitente emitente;
 
