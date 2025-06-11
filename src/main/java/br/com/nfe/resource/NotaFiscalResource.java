@@ -1,7 +1,7 @@
 package br.com.nfe.resource;
 
 import br.com.nfe.domain.dto.NotaFiscalDTO;
-import br.com.nfe.service.NotaFiscalService;
+import br.com.nfe.service.impl.NotaFiscalServiceImpl;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -12,7 +12,7 @@ import jakarta.ws.rs.core.Response;
 @Produces(MediaType.APPLICATION_JSON)
 public class NotaFiscalResource {
     @Inject
-    NotaFiscalService service;
+    NotaFiscalServiceImpl service;
 
     @POST
     public Response criarNota(NotaFiscalDTO dto) {

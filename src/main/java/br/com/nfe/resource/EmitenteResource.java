@@ -2,7 +2,7 @@ package br.com.nfe.resource;
 
 import br.com.nfe.domain.Emitente;
 import br.com.nfe.domain.dto.EmitenteDTO;
-import br.com.nfe.service.EmitenteService;
+import br.com.nfe.service.impl.EmitenteServiceImpl;
 import br.com.nfe.util.ValidadorCNPJ;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
@@ -17,7 +17,7 @@ import java.util.List;
 public class EmitenteResource {
 
     @Inject
-    EmitenteService service;
+    EmitenteServiceImpl service;
 
     @POST
     public Response cadastrar(EmitenteDTO dto){

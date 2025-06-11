@@ -2,7 +2,7 @@ package br.com.nfe.resource;
 
 import br.com.nfe.domain.Produto;
 import br.com.nfe.domain.dto.ProdutoDTO;
-import br.com.nfe.service.ProdutoService;
+import br.com.nfe.service.impl.ProdutoServiceImpl;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -16,7 +16,7 @@ import java.util.List;
 public class ProdutoResource {
 
     @Inject
-    ProdutoService service;
+    ProdutoServiceImpl service;
 
     @POST
     public Response cadastrar(ProdutoDTO dto) {
