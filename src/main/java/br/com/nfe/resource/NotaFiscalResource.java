@@ -1,4 +1,4 @@
-package br.com.nfe.Resource;
+package br.com.nfe.resource;
 
 import br.com.nfe.domain.dto.NotaFiscalDTO;
 import br.com.nfe.service.NotaFiscalService;

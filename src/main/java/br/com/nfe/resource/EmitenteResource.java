@@ -1,11 +1,10 @@
-package br.com.nfe.Resource;
+package br.com.nfe.resource;
 
 import br.com.nfe.domain.Emitente;
 import br.com.nfe.domain.dto.EmitenteDTO;
 import br.com.nfe.service.EmitenteService;
 import br.com.nfe.util.ValidadorCNPJ;
 import jakarta.inject.Inject;
-import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
