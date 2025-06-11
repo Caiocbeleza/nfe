@@ -67,49 +67,53 @@ public class NotaFiscalService {
         // Gerar protocolo fictício
         nota.protocoloAutorizacao = UUID.randomUUID().toString();
 
-        // Construir XML simulado
-        StringBuilder xml = new StringBuilder();
-        xml.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-        xml.append("<nfe>");
+        try {
+            // Construir XML simulado
+            StringBuilder xml = new StringBuilder();
+            xml.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+            xml.append("<nfe>");
 
-        // Emitente
-        xml.append("<emitente>");
-        xml.append("<cnpj>").append(nota.emitente.cnpj).append("</cnpj>");
-        xml.append("<razaoSocial>").append(nota.emitente.razaoSocial).append("</razaoSocial>");
-        xml.append("<ie>").append(nota.emitente.ie).append("</ie>");
-        xml.append("<uf>").append(nota.emitente.uf).append("</uf>");
-        xml.append("</emitente>");
+            // Emitente
+            xml.append("<emitente>");
+            xml.append("<cnpj>").append(nota.emitente.cnpj).append("</cnpj>");
+            xml.append("<razaoSocial>").append(nota.emitente.razaoSocial).append("</razaoSocial>");
+            xml.append("<ie>").append(nota.emitente.ie).append("</ie>");
+            xml.append("<uf>").append(nota.emitente.uf).append("</uf>");
+            xml.append("</emitente>");
 
-        // Destinatário
-        xml.append("<destinatario>");
-        xml.append("<nome>").append(nota.destinatario.nome).append("</nome>");
-        xml.append("<documento>").append(nota.destinatario.documento).append("</documento>");
-        xml.append("<uf>").append(nota.destinatario.uf).append("</uf>");
-        xml.append("</destinatario>");
+            // Destinatário
+            xml.append("<destinatario>");
+            xml.append("<nome>").append(nota.destinatario.nome).append("</nome>");
+            xml.append("<documento>").append(nota.destinatario.documento).append("</documento>");
+            xml.append("<uf>").append(nota.destinatario.uf).append("</uf>");
+            xml.append("</destinatario>");
 
-        // Itens
-        xml.append("<itens>");
-        for (ItemNota item : nota.itens) {
-            xml.append("<item>");
-            xml.append("<produto>").append(item.produto.nome).append("</produto>");
-            xml.append("<quantidade>").append(item.quantidade).append("</quantidade>");
-            xml.append("<valorTotal>").append(item.valorTotal).append("</valorTotal>");
-            xml.append("</item>");
+            // Itens
+            xml.append("<itens>");
+            for (ItemNota item : nota.itens) {
+                xml.append("<item>");
+                xml.append("<produto>").append(item.produto.nome).append("</produto>");
+                xml.append("<quantidade>").append(item.quantidade).append("</quantidade>");
+                xml.append("<valorTotal>").append(item.valorTotal).append("</valorTotal>");
+                xml.append("</item>");
+            }
+            xml.append("</itens>");
+
+            // Totais
+            xml.append("<totais>");
+            xml.append("<totalNota>").append(nota.totalNota).append("</totalNota>");
+            xml.append("<icms>").append(nota.icms).append("</icms>");
+            xml.append("<totalComImposto>").append(nota.totalComImposto).append("</totalComImposto>");
+            xml.append("<protocolo>").append(nota.protocoloAutorizacao).append("</protocolo>");
+            xml.append("</totais>");
+
+            xml.append("</nfe>");
+
+            nota.xml = xml.toString();
+            nota.persist();
+        }catch (Exception e){
+            System.out.println("Erro ao gerar xml: " + e.getMessage());
         }
-        xml.append("</itens>");
-
-        // Totais
-        xml.append("<totais>");
-        xml.append("<totalNota>").append(nota.totalNota).append("</totalNota>");
-        xml.append("<icms>").append(nota.icms).append("</icms>");
-        xml.append("<totalComImposto>").append(nota.totalComImposto).append("</totalComImposto>");
-        xml.append("<protocolo>").append(nota.protocoloAutorizacao).append("</protocolo>");
-        xml.append("</totais>");
-
-        xml.append("</nfe>");
-
-        nota.xml = xml.toString();
-        nota.persist();
 
         return nota;
 
