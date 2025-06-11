@@ -65,42 +65,42 @@ public class NotaFiscalService {
 
         // Construir XML simulado
         StringBuilder xml = new StringBuilder();
-        xml.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
-        xml.append("<nfe>\n");
+        xml.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+        xml.append("<nfe>");
 
         // Emitente
-        xml.append("  <emitente>\n");
-        xml.append("    <cnpj>").append(nota.emitente.cnpj).append("</cnpj>\n");
-        xml.append("    <razaoSocial>").append(nota.emitente.razaoSocial).append("</razaoSocial>\n");
-        xml.append("    <ie>").append(nota.emitente.ie).append("</ie>\n");
-        xml.append("    <uf>").append(nota.emitente.uf).append("</uf>\n");
-        xml.append("  </emitente>\n");
+        xml.append("<emitente>");
+        xml.append("<cnpj>").append(nota.emitente.cnpj).append("</cnpj>");
+        xml.append("<razaoSocial>").append(nota.emitente.razaoSocial).append("</razaoSocial>");
+        xml.append("<ie>").append(nota.emitente.ie).append("</ie>");
+        xml.append("<uf>").append(nota.emitente.uf).append("</uf>");
+        xml.append("</emitente>");
 
         // Destinatário
-        xml.append("  <destinatario>\n");
-        xml.append("    <nome>").append(nota.destinatario.nome).append("</nome>\n");
-        xml.append("    <documento>").append(nota.destinatario.documento).append("</documento>\n");
-        xml.append("    <uf>").append(nota.destinatario.uf).append("</uf>\n");
-        xml.append("  </destinatario>\n");
+        xml.append("<destinatario>");
+        xml.append("<nome>").append(nota.destinatario.nome).append("</nome>");
+        xml.append("<documento>").append(nota.destinatario.documento).append("</documento>");
+        xml.append("<uf>").append(nota.destinatario.uf).append("</uf>");
+        xml.append("</destinatario>");
 
         // Itens
-        xml.append("  <itens>\n");
+        xml.append("<itens>");
         for (ItemNota item : nota.itens) {
-            xml.append("    <item>\n");
-            xml.append("      <produto>").append(item.produto.nome).append("</produto>\n");
-            xml.append("      <quantidade>").append(item.quantidade).append("</quantidade>\n");
-            xml.append("      <valorTotal>").append(item.valorTotal).append("</valorTotal>\n");
-            xml.append("    </item>\n");
+            xml.append("<item>");
+            xml.append("<produto>").append(item.produto.nome).append("</produto>");
+            xml.append("<quantidade>").append(item.quantidade).append("</quantidade>");
+            xml.append("<valorTotal>").append(item.valorTotal).append("</valorTotal>");
+            xml.append("</item>");
         }
-        xml.append("  </itens>\n");
+        xml.append("</itens>");
 
         // Totais
-        xml.append("  <totais>\n");
-        xml.append("    <totalNota>").append(nota.totalNota).append("</totalNota>\n");
-        xml.append("    <icms>").append(nota.icms).append("</icms>\n");
-        xml.append("    <totalComImposto>").append(nota.totalComImposto).append("</totalComImposto>\n");
-        xml.append("    <protocolo>").append(nota.protocoloAutorizacao).append("</protocolo>\n");
-        xml.append("  </totais>\n");
+        xml.append("<totais>");
+        xml.append("<totalNota>").append(nota.totalNota).append("</totalNota>");
+        xml.append("<icms>").append(nota.icms).append("</icms>");
+        xml.append("<totalComImposto>").append(nota.totalComImposto).append("</totalComImposto>");
+        xml.append("<protocolo>").append(nota.protocoloAutorizacao).append("</protocolo>");
+        xml.append("</totais>");
 
         xml.append("</nfe>");
 
