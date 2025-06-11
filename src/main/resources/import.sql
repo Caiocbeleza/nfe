@@ -1,6 +1,7 @@
 -- Emitente
 INSERT INTO emitente (id, cnpj, razaoSocial, ie, uf)
-VALUES (1, '34177678000166', 'Empresa Teste LTDA', '123456789', 'SP');
+VALUES (1, '34177678000166', 'Gasparzinho Co.', '123456789', 'SP'),
+       (2, '62033589000181', 'Uma Empresa do Malvado Doofenshmirtz', '456789011', 'SP');
 
 -- Nota Fiscal
 INSERT INTO nota_fiscal (id, emitente_id, totalNota, icms, totalComImposto, protocoloAutorizacao, xml, nome, documento, uf)
