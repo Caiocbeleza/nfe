@@ -13,7 +13,7 @@ VALUES (
     18.17,
     'PROTOCOLO-FAKE-001',
     '<xml>Simulação NF-e</xml>',
-    'João da Silva',
+    'Fulano da Silva',
     '12345678901',
     'RJ'
 );
