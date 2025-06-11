@@ -16,8 +16,12 @@ public class ProdutoService {
         produto.ncm = dto.ncm;
         produto.cfop = dto.cfop;
         produto.valorUnitario = dto.valorUnitario;
-        produto.persist();
 
+        try {
+            produto.persist();
+        }catch (Exception e){
+            System.out.println("Erro ao salvar o produto: " + e.getMessage());
+        }
         return produto;
     }
 }

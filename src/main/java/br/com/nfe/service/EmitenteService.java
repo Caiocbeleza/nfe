@@ -16,8 +16,11 @@ public class EmitenteService {
         emitente.ie = dto.ie;
         emitente.uf = dto.uf;
 
-
-        emitente.persist();
+        try {
+            emitente.persist();
+        }catch (Exception e){
+            System.out.println("Erro ao salvar Emitente: " + e.getMessage());
+        }
         return emitente;
     }
 }

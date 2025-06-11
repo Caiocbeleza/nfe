@@ -31,26 +31,30 @@ public class NotaFiscalService {
 
         BigDecimal total = BigDecimal.ZERO;
 
-        for (ItemNotaDTO itemDTO : dto.itens) {
-            Produto produto = Produto.findById(itemDTO.produtoId);
-            if (produto == null) {
-                throw new WebApplicationException("Produto não encontrado: " + itemDTO.produtoId, 400);
+        try {
+            for (ItemNotaDTO itemDTO : dto.itens) {
+                Produto produto = Produto.findById(itemDTO.produtoId);
+                if (produto == null) {
+                    throw new WebApplicationException("Produto não encontrado: " + itemDTO.produtoId, 400);
+                }
+
+                ItemNota item = new ItemNota();
+                item.produto = produto;
+                item.quantidade = itemDTO.quantidade;
+                item.valorTotal = produto.valorUnitario.multiply(BigDecimal.valueOf(itemDTO.quantidade));
+
+                nota.itens.add(item);
+                total = total.add(item.valorTotal);
             }
 
-            ItemNota item = new ItemNota();
-            item.produto = produto;
-            item.quantidade = itemDTO.quantidade;
-            item.valorTotal = produto.valorUnitario.multiply(BigDecimal.valueOf(itemDTO.quantidade));
+            nota.totalNota = total;
+            nota.icms = total.multiply(new BigDecimal("0.18")).setScale(2);
+            nota.totalComImposto = total.add(nota.icms);
 
-            nota.itens.add(item);
-            total = total.add(item.valorTotal);
+            nota.persist();
+        }catch (Exception e){
+            System.out.println("Erro ao salvar a nota: " + e.getMessage());
         }
-
-        nota.totalNota = total;
-        nota.icms = total.multiply(new BigDecimal("0.18")).setScale(2);
-        nota.totalComImposto = total.add(nota.icms);
-
-        nota.persist();
         return nota;
     }
 
