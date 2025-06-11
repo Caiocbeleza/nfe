@@ -1,24 +1,25 @@
 package br.com.nfe.service.impl;
 
-import br.com.nfe.domain.Emitente;
-import br.com.nfe.domain.ItemNota;
-import br.com.nfe.domain.NotaFiscal;
-import br.com.nfe.domain.Produto;
+import br.com.nfe.domain.*;
+import br.com.nfe.domain.dto.CriarNotaDTO;
 import br.com.nfe.domain.dto.ItemNotaDTO;
 import br.com.nfe.domain.dto.NotaFiscalDTO;
+import br.com.nfe.domain.dto.NotaFiscalResponseDTO;
 import br.com.nfe.service.NotaFiscalService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
+import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.WebApplicationException;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @ApplicationScoped
 public class NotaFiscalServiceImpl implements NotaFiscalService {
     @Transactional
-    public NotaFiscal criarNota(NotaFiscalDTO dto) {
+    public NotaFiscalResponseDTO criarNota(CriarNotaDTO dto) {
         Emitente emitente = Emitente.findById(dto.emitenteId);
         if(emitente == null){
             throw new WebApplicationException("Emitente não encontrado", 400);
@@ -27,36 +28,75 @@ public class NotaFiscalServiceImpl implements NotaFiscalService {
 
         NotaFiscal nota = new NotaFiscal();
         nota.emitente = emitente;
-        nota.destinatario = dto.destinatario;
-        nota.itens = new ArrayList<>();
 
-        BigDecimal total = BigDecimal.ZERO;
+        Destinatario dest = new Destinatario();
+        dest.nome = dto.destinatario.nome;
+        dest.documento = dto.destinatario.documento;
+        dest.uf = dto.destinatario.uf;
+        nota.destinatario = dest;
+
+        BigDecimal totalNota = BigDecimal.ZERO;
+        List<ItemNota> itens = new ArrayList<>();
 
         try {
-            for (ItemNotaDTO itemDTO : dto.itens) {
+            for (CriarNotaDTO.ItemNotaDTO itemDTO : dto.itens) {
                 Produto produto = Produto.findById(itemDTO.produtoId);
                 if (produto == null) {
-                    throw new WebApplicationException("Produto não encontrado: " + itemDTO.produtoId, 400);
+                    throw new NotFoundException("Produto ID " + itemDTO.produtoId + " não encontrado");
                 }
 
                 ItemNota item = new ItemNota();
                 item.produto = produto;
                 item.quantidade = itemDTO.quantidade;
                 item.valorTotal = produto.valorUnitario.multiply(BigDecimal.valueOf(itemDTO.quantidade));
+                item.notaFiscal = nota;
 
-                nota.itens.add(item);
-                total = total.add(item.valorTotal);
+                totalNota = totalNota.add(item.valorTotal);
+                itens.add(item);
             }
 
-            nota.totalNota = total;
-            nota.icms = total.multiply(new BigDecimal("0.18")).setScale(2);
-            nota.totalComImposto = total.add(nota.icms);
+            nota.itens = itens;
+            nota.totalNota = totalNota;
+            nota.icms = totalNota.multiply(new BigDecimal("0.18"));
+            nota.totalComImposto = nota.totalNota.add(nota.icms);
 
             nota.persist();
         }catch (Exception e){
             System.out.println("Erro ao salvar a nota: " + e.getMessage());
         }
-        return nota;
+        return toResponseDTO(nota);
+    }
+
+    private NotaFiscalResponseDTO toResponseDTO(NotaFiscal nota) {
+        NotaFiscalResponseDTO dto = new NotaFiscalResponseDTO();
+        dto.id = nota.id;
+        dto.protocoloAutorizacao = nota.protocoloAutorizacao;
+        dto.totalNota = nota.totalNota;
+        dto.icms = nota.icms;
+        dto.totalComImposto = nota.totalComImposto;
+
+        var emitenteDTO = new NotaFiscalResponseDTO.EmitenteDTO();
+        emitenteDTO.cnpj = nota.emitente.cnpj;
+        emitenteDTO.razaoSocial = nota.emitente.razaoSocial;
+        emitenteDTO.ie = nota.emitente.ie;
+        emitenteDTO.uf = nota.emitente.uf;
+        dto.emitente = emitenteDTO;
+
+        var destDTO = new CriarNotaDTO.DestinatarioDTO();
+        destDTO.nome = nota.destinatario.nome;
+        destDTO.documento = nota.destinatario.documento;
+        destDTO.uf = nota.destinatario.uf;
+        dto.destinatario = destDTO;
+
+        dto.itens = new ArrayList<>();
+        for (ItemNota item : nota.itens) {
+            var itemDTO = new NotaFiscalResponseDTO.ItemResponseDTO();
+            itemDTO.quantidade = item.quantidade;
+            itemDTO.valorTotal = item.valorTotal;
+            dto.itens.add(itemDTO);
+        }
+
+        return dto;
     }
 
     public NotaFiscal enviarParaSefaz(Long id) {

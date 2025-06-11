@@ -1,5 +1,6 @@
 package br.com.nfe.resource;
 
+import br.com.nfe.domain.dto.CriarNotaDTO;
 import br.com.nfe.domain.dto.NotaFiscalDTO;
 import br.com.nfe.service.impl.NotaFiscalServiceImpl;
 import jakarta.inject.Inject;
@@ -15,7 +16,7 @@ public class NotaFiscalResource {
     NotaFiscalServiceImpl service;
 
     @POST
-    public Response criarNota(NotaFiscalDTO dto) {
+    public Response criarNota(CriarNotaDTO dto) {
         return Response.ok(service.criarNota(dto)).build();
     }
 
