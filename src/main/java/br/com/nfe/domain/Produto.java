@@ -13,17 +13,22 @@ import java.math.BigDecimal;
 public class Produto extends PanacheEntity {
 
     @NotBlank
+    @Column(nullable = false, length = 100)
     public String codigo;
 
     @NotBlank
+    @Column(nullable = false, length = 100)
     public String nome;
 
     @Pattern(regexp = "\\d{8}")
+    @Column(nullable = false, length = 100)
     public String ncm;
 
     @Pattern(regexp = "\\d{4}")
+    @Column(nullable = false, length = 100)
     public String cfop;
 
     @Positive
+    @Column(name = "valor_unitario", nullable = false, length = 100)
     public BigDecimal valorUnitario;
 }

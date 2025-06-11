@@ -8,15 +8,15 @@ import jakarta.validation.constraints.NotBlank;
 @Table(name = "emitente")
 public class Emitente extends PanacheEntity {
 
-    @NotBlank
+    @Column(nullable = false, length = 14)
     public String cnpj;
 
-    @NotBlank
+    @Column(name = "razao_social", nullable = false, length = 100)
     public String razaoSocial;
 
-    @NotBlank
+    @Column(nullable = false, length = 20)
     public String ie;
 
-    @NotBlank
+    @Column(nullable = false, length = 2)
     public String uf;
 }
