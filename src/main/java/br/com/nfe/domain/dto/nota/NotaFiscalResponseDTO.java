@@ -1,4 +1,4 @@
-package br.com.nfe.domain.dto;
+package br.com.nfe.domain.dto.nota;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -21,7 +21,6 @@ public class NotaFiscalResponseDTO {
     }
 
     public static class ItemResponseDTO {
-        public String descricaoProduto;
         public int quantidade;
         public BigDecimal valorTotal;
     }

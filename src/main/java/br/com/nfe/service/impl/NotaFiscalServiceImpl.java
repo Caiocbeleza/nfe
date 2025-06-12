@@ -1,10 +1,8 @@
 package br.com.nfe.service.impl;
 
 import br.com.nfe.domain.*;
-import br.com.nfe.domain.dto.CriarNotaDTO;
-import br.com.nfe.domain.dto.ItemNotaDTO;
-import br.com.nfe.domain.dto.NotaFiscalDTO;
-import br.com.nfe.domain.dto.NotaFiscalResponseDTO;
+import br.com.nfe.domain.dto.nota.CriarNotaDTO;
+import br.com.nfe.domain.dto.nota.NotaFiscalResponseDTO;
 import br.com.nfe.service.NotaFiscalService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;

@@ -1,7 +1,6 @@
 package br.com.nfe.resource;
 
-import br.com.nfe.domain.dto.CriarNotaDTO;
-import br.com.nfe.domain.dto.NotaFiscalDTO;
+import br.com.nfe.domain.dto.nota.CriarNotaDTO;
 import br.com.nfe.service.impl.NotaFiscalServiceImpl;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;

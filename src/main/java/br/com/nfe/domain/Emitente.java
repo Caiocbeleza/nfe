@@ -8,7 +8,7 @@ import jakarta.validation.constraints.NotBlank;
 @Table(name = "emitente")
 public class Emitente extends PanacheEntity {
 
-    @Column(nullable = false, length = 14)
+    @Column(nullable = false)
     public String cnpj;
 
     @Column(name = "razao_social", nullable = false, length = 100)

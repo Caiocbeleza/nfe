@@ -1,4 +1,4 @@
-package br.com.nfe.domain.dto;
+package br.com.nfe.domain.dto.nota;
 
 import java.util.List;
 
