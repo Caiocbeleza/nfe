@@ -124,12 +124,9 @@ VALUES
 
 ```
 {
-    "id": 1,
-    "protocoloAutorizacao": "b31fcb3d-947b-4272-8829-95bc777a7cad",
-    "totalNota": 5.00,
-    "icms": 0.9000,
-    "totalComImposto": 5.9000,
+    "id": 2,
     "emitente": {
+        "id": 100,
         "cnpj": "34177678000166",
         "razaoSocial": "Gasparzinho Co.",
         "ie": "123456789",
@@ -142,10 +139,24 @@ VALUES
     },
     "itens": [
         {
-            "quantidade": 2,
-            "valorTotal": 5.00
+            "id": 2,
+            "produto": {
+                "id": 100,
+                "codigo": "P001",
+                "nome": "Caneta Azul",
+                "ncm": "12345678",
+                "cfop": "5101",
+                "valorUnitario": 2.50
+            },
+            "quantidade": 1,
+            "valorTotal": 2.50
         }
-    ]
+    ],
+    "totalNota": 2.50,
+    "icms": 0.45,
+    "totalComImposto": 2.95,
+    "protocoloAutorizacao": "2e1a260a-3700-4750-adaf-801b7db3ad00",
+    "xml": "<?xml version=\"1.0\" encoding=\"UTF-8\"?><nfe><emitente><cnpj>34177678000166</cnpj><razaoSocial>Gasparzinho Co.</razaoSocial><ie>123456789</ie><uf>SP</uf></emitente><destinatario><nome>Cicrano Pereira</nome><documento>356.199.070-31</documento><uf>DF</uf></destinatario><itens><item><produto>Caneta Azul</produto><quantidade>1</quantidade><valorTotal>2.50</valorTotal></item></itens><totais><totalNota>2.50</totalNota><icms>0.45</icms><totalComImposto>2.95</totalComImposto><protocolo>2e1a260a-3700-4750-adaf-801b7db3ad00</protocolo></totais></nfe>"
 }
 
 ```
