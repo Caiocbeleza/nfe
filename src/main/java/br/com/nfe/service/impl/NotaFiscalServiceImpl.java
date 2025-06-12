@@ -2,12 +2,14 @@ package br.com.nfe.service.impl;
 
 import br.com.nfe.domain.*;
 import br.com.nfe.domain.dto.nota.CriarNotaDTO;
-import br.com.nfe.domain.dto.nota.NotaFiscalResponseDTO;
+import br.com.nfe.domain.dto.nota.NotaFiscalDTO;
 import br.com.nfe.service.NotaFiscalService;
+import br.com.nfe.util.ValidadorNotaFiscal;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.WebApplicationException;
+import jakarta.ws.rs.core.Response;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -17,7 +19,7 @@ import java.util.UUID;
 @ApplicationScoped
 public class NotaFiscalServiceImpl implements NotaFiscalService {
     @Transactional
-    public NotaFiscalResponseDTO criarNota(CriarNotaDTO dto) {
+    public NotaFiscalDTO criarNota(CriarNotaDTO dto) {
         Emitente emitente = Emitente.findById(dto.emitenteId);
         if(emitente == null){
             throw new WebApplicationException("Emitente não encontrado", 400);
@@ -53,11 +55,20 @@ public class NotaFiscalServiceImpl implements NotaFiscalService {
                 itens.add(item);
             }
 
+            if (totalNota.compareTo(BigDecimal.ZERO) == 0) {
+                throw new WebApplicationException(
+                        Response.status(Response.Status.BAD_REQUEST)
+                                .entity("Rejeição: Nota com valor zero.")
+                                .build()
+                );
+            }
+
             nota.itens = itens;
             nota.totalNota = totalNota;
             nota.icms = totalNota.multiply(new BigDecimal("0.18"));
             nota.totalComImposto = nota.totalNota.add(nota.icms);
             nota.protocoloAutorizacao = UUID.randomUUID().toString();
+
 
             nota.persist();
         }catch (Exception e){
@@ -66,15 +77,15 @@ public class NotaFiscalServiceImpl implements NotaFiscalService {
         return toResponseDTO(nota);
     }
 
-    private NotaFiscalResponseDTO toResponseDTO(NotaFiscal nota) {
-        NotaFiscalResponseDTO dto = new NotaFiscalResponseDTO();
+    private NotaFiscalDTO toResponseDTO(NotaFiscal nota) {
+        NotaFiscalDTO dto = new NotaFiscalDTO();
         dto.id = nota.id;
         dto.protocoloAutorizacao = nota.protocoloAutorizacao;
         dto.totalNota = nota.totalNota;
         dto.icms = nota.icms;
         dto.totalComImposto = nota.totalComImposto;
 
-        var emitenteDTO = new NotaFiscalResponseDTO.EmitenteDTO();
+        var emitenteDTO = new NotaFiscalDTO.EmitenteDTO();
         emitenteDTO.cnpj = nota.emitente.cnpj;
         emitenteDTO.razaoSocial = nota.emitente.razaoSocial;
         emitenteDTO.ie = nota.emitente.ie;
@@ -89,7 +100,7 @@ public class NotaFiscalServiceImpl implements NotaFiscalService {
 
         dto.itens = new ArrayList<>();
         for (ItemNota item : nota.itens) {
-            var itemDTO = new NotaFiscalResponseDTO.ItemResponseDTO();
+            var itemDTO = new NotaFiscalDTO.ItemResponseDTO();
             itemDTO.quantidade = item.quantidade;
             itemDTO.valorTotal = item.valorTotal;
             dto.itens.add(itemDTO);

@@ -1,12 +1,27 @@
 package br.com.nfe.domain.dto.nota;
 
-import br.com.nfe.domain.Destinatario;
-
+import java.math.BigDecimal;
 import java.util.List;
 
 public class NotaFiscalDTO {
-    public Long emitenteId;
-    public Destinatario destinatario;
-    public List<ItemNotaDTO> itens;
-}
+    public Long id;
+    public String protocoloAutorizacao;
+    public BigDecimal totalNota;
+    public BigDecimal icms;
+    public BigDecimal totalComImposto;
+    public EmitenteDTO emitente;
+    public CriarNotaDTO.DestinatarioDTO destinatario;
+    public List<ItemResponseDTO> itens;
 
+    public static class EmitenteDTO {
+        public String cnpj;
+        public String razaoSocial;
+        public String ie;
+        public String uf;
+    }
+
+    public static class ItemResponseDTO {
+        public int quantidade;
+        public BigDecimal valorTotal;
+    }
+}
