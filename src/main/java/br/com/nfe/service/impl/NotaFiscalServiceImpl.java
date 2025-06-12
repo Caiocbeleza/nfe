@@ -57,6 +57,7 @@ public class NotaFiscalServiceImpl implements NotaFiscalService {
             nota.totalNota = totalNota;
             nota.icms = totalNota.multiply(new BigDecimal("0.18"));
             nota.totalComImposto = nota.totalNota.add(nota.icms);
+            nota.protocoloAutorizacao = UUID.randomUUID().toString();
 
             nota.persist();
         }catch (Exception e){
